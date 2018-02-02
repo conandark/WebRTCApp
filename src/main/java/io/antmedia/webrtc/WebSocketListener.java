@@ -35,7 +35,7 @@ import io.antmedia.webrtc.adaptor.RTMPAdaptor;
 
 public class WebSocketListener extends WebSocketDataListener {
 
-	public static final String DTLS_SRTP_KEY_AGREEMENT_CONSTRAINT = "DtlsSrtpKeyAgreement";
+
 
 	private static final Logger log = Red5LoggerFactory.getLogger(WebSocketListener.class);
 
@@ -48,13 +48,6 @@ public class WebSocketListener extends WebSocketDataListener {
 	private String baseUrl = "rtmp://127.0.0.1/WebRTCApp/";
 
 
-	public static PeerConnectionFactory createPeerConnectionFactory(){
-		PeerConnectionFactory.Options options = new PeerConnectionFactory.Options();
-		options.networkIgnoreMask = 0;
-		return new PeerConnectionFactory(options);
-
-	}
-	
 	public void takeAction(JSONObject jsonObject, WebSocketConnection connection) {
 		try {
 			String cmd = (String) jsonObject.get("command");
@@ -74,26 +67,11 @@ public class WebSocketListener extends WebSocketDataListener {
 
 				connectionContextList.put(connection.getId(), connectionContext);
 
-				List<IceServer> iceServers = new ArrayList();
-				iceServers.add(new IceServer("stun:stun.l.google.com:19302"));
-				PeerConnection.RTCConfiguration rtcConfig = new PeerConnection.RTCConfiguration(iceServers);
-
-				MediaConstraints pcConstraints = new MediaConstraints();
-				pcConstraints.optional.add(
-						new MediaConstraints.KeyValuePair(DTLS_SRTP_KEY_AGREEMENT_CONSTRAINT, "true"));
-
-				PeerConnectionFactory peerConnectionFactory = createPeerConnectionFactory();
-				PeerConnection peerConnection = peerConnectionFactory.createPeerConnection(rtcConfig, pcConstraints, connectionContext);
-				connectionContext.setPeerConnection(peerConnection);
 				connectionContext.setWsConnection(connection);
-				connectionContext.setPeerConnectionFactory(peerConnectionFactory);
 				
 				connectionContext.start();
 
-				JSONObject jsonResponse = new JSONObject();
-				jsonResponse.put("command", "start");
-
-				connection.send(jsonResponse.toJSONString());
+				
 
 			}
 			else if (cmd.equals("play")) {
@@ -120,10 +98,9 @@ public class WebSocketListener extends WebSocketDataListener {
 						System.out.println("received sdp type is answer");
 					}
 					SessionDescription sdp = new SessionDescription(type, sdpDescription);
-
-					connectionContext.getPeerConnection().setRemoteDescription(connectionContext, sdp);
+					connectionContext.setRemoteDescription(sdp);
+					
 				}
-
 			}
 			else if (cmd.equals("takeCandidate")) {
 				String sdpMid = (String) jsonObject.get("id");
@@ -133,9 +110,9 @@ public class WebSocketListener extends WebSocketDataListener {
 				RTMPAdaptor connectionContext = connectionContextList.get(connection.getId());
 
 				IceCandidate iceCandidate = new IceCandidate(sdpMid, (int)sdpMLineIndex, sdp);
-				if (!connectionContext.getPeerConnection().addIceCandidate(iceCandidate)) {
-					System.out.println("ICE candidate could not be added.");
-				}
+				
+				connectionContext.addIceCandidate(iceCandidate);
+				
 			}
 			else if (cmd.equals("stop")) {
 
