@@ -58,7 +58,7 @@ function WebRTCAdaptor(initialValues)
 						thiz.gotStream(stream);
 					})
 					.catch(function(error) {
-						thiz.callbackError(error.name);
+						thiz.callbackError(error.name, error.message);
 					});
 				}
 				else {
@@ -66,15 +66,15 @@ function WebRTCAdaptor(initialValues)
 				}
 			})
 			.catch(function(error) {
-				thiz.callbackError(error.name);
+				thiz.callbackError(error.name, error.message);
 			});
 		}
 		else {
-			var media_audio_constraint = { video: thiz.mediaConstraints.audio };
+			var media_audio_constraint = { audio: thiz.mediaConstraints.audio };
 			navigator.mediaDevices.getUserMedia(media_audio_constraint)
 			.then(thiz.gotStream)
 			.catch(function(error) {
-				thiz.callbackError(error.name);
+				thiz.callbackError(error.name, error.message);
 			});
 		}
 	}
@@ -152,12 +152,12 @@ function WebRTCAdaptor(initialValues)
 
 	this.gotStream = function (stream) {
 
+		
 		thiz.localStream = stream;
 		thiz.localVideo.srcObject = stream;
 		if (thiz.webSocketAdaptor == null || thiz.webSocketAdaptor.isConnected() == false) {
 			thiz.webSocketAdaptor = new WebSocketAdaptor();
 		}
-
 	};
 
 	this.onTrack = function(event) {
