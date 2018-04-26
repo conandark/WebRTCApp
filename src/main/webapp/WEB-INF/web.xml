@@ -22,15 +22,6 @@
 	</listener>
 
 	<filter>
-		<filter-name>CorsFilter</filter-name>
-		<filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>CorsFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-
-	<filter>
 		<filter-name>LoggerContextFilter</filter-name>
 		<filter-class>org.red5.logging.LoggerContextFilter</filter-class>
 	</filter>
@@ -120,6 +111,8 @@
 		<filter-name>CorsFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
+	
 
 	<!-- The security-constraint element is used to associate security constraints 
 		with one or more web resource collections -->
