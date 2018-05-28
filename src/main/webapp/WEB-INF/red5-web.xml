@@ -30,35 +30,7 @@
 	<bean id="db.datastore" class="io.antmedia.datastore.db.MapDBStore">
 		<constructor-arg value="${webapp.dbName}" />
 	</bean>
-
-	<!-- Defines the web handler which acts as an applications endpoint -->
-	<bean id="web.handler" class="io.antmedia.webrtc.WebRTCApplication" >
-	  <!-- <property name="videoServiceEndpoints">
-			<list>
-			
-				<bean class="io.antmedia.enterprise.social.endpoint.FacebookEndpoint" init-method="start">
-					<constructor-arg value="${facebook.clientId}"/>
-					<constructor-arg value="${facebook.clientSecret}"/>
-					<constructor-arg ref="preference.store"/>
-				</bean>
-				<bean class="io.antmedia.social.endpoint.PeriscopeEndpoint" init-method="start">
-					<constructor-arg value="${periscope.clientId}"/>
-					<constructor-arg value="${periscope.clientSecret}"/>
-					<constructor-arg ref="preference.store"/>
-				</bean>
-				<bean class="io.antmedia.enterprise.social.endpoint.YoutubeEndpoint" init-method="start">
-					<constructor-arg value="${youtube.clientId}"/>
-					<constructor-arg value="${youtube.clientSecret}"/>
-					<constructor-arg ref="preference.store"/>
-				</bean>
-			</list>
-		  </property>
-		-->
-		<property name="dataStore" ref="db.datastore" />
 	
-	</bean>
-
-
 	<bean id="app.settings" class="io.antmedia.AppSettings">
 		<property name="mp4MuxingEnabled" value="${settings.mp4MuxingEnabled}" />
 		<property name="addDateTimeToMp4FileName" value="${settings.addDateTimeToMp4FileName}" />
@@ -80,6 +52,12 @@
       	<property name="youtubeClientId" value="${youtube.clientId}" />
       	<property name="youtubeClientSecret" value="${youtube.clientSecret}" />
 
+	</bean>
+
+	<!-- Defines the web handler which acts as an applications endpoint -->
+	<bean id="web.handler" class="io.antmedia.webrtc.WebRTCApplication" >
+		<property name="dataStore" ref="db.datastore" />
+		<property name="appSettings" ref="app.settings" />
 	</bean>
 
 	<!-- WebSocket scope with our listeners -->
