@@ -47,7 +47,6 @@ public class WebRTCApplication extends AntMediaApplicationAdapter implements App
 	public ThreadPoolTaskScheduler getTaskScheduler() {
 		return taskScheduler;
 	}
-
 	public void setTaskScheduler(ThreadPoolTaskScheduler taskScheduler) {
 		this.taskScheduler = taskScheduler;
 	}
