@@ -22,6 +22,7 @@ install:
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dgpg.skip=true -B -V --quiet 
 
 script:
+  - mvn -q -Dexec.executable="echo" -Dexec.args='${project.version}' --non-recursive exec:exec
 
 cache:
   directories:
@@ -34,6 +35,7 @@ deploy:
     on:
       tags: false
       branch: master
+      condition: $(mvn -q -Dexec.executable="echo" -Dexec.args='${project.version}' --non-recursive exec:exec)  = *"SNAPSHOT"*
   
   - provider: script
     script: "mvn deploy -P assemble -DskipTests --quiet --settings mvn-settings.xml"
