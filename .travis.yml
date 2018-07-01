@@ -22,7 +22,6 @@ install:
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dgpg.skip=true -B -V --quiet 
 
 script:
-  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dgpg.skip=true -B -V --quiet
 
 cache:
   directories:
@@ -34,9 +33,7 @@ deploy:
     skip_cleanup: true
     on:
       tags: false
-      all_branches: true
-      #deploy all branches to mvn if it is a snapshot version
-      condition:  $(mvn -o -q -Dexec.executable="echo" -Dexec.args='${project.version}' --non-recursive exec:exec)  = *"SNAPSHOT"* 
+      branch: master
   
   - provider: script
     script: "mvn deploy -P assemble -DskipTests --quiet --settings mvn-settings.xml"
