@@ -1,47 +1,39 @@
 language: java
 jdk:
-  - openjdk8
-
+- openjdk8
 sudo: false
-
-
-
-#travis running on ubuntu 14.04
-
-before_install: 
-#  - openssl aes-256-cbc -K $encrypted_5fef4fa28306_key -iv $encrypted_5fef4fa28306_iv -in codesigning.asc.enc -out codesigning.asc -d
-#  - gpg --fast-import codesigning.asc
-  - sudo git clone --depth=1 https://github.com/ant-media/utilities.git /usr/local/onvif
-  - (if [ $(git ls-remote https://github.com/ant-media/Ant-Media-Server-Common.git $TRAVIS_BRANCH  | wc -l) == "1" ];  then echo " $TRAVIS_BRANCH branch found";  git clone --depth=1 -b $TRAVIS_BRANCH https://github.com/ant-media/Ant-Media-Server-Common.git;  else echo "branch not found"; git clone --depth=1 https://github.com/ant-media/Ant-Media-Server-Common.git;  fi)
-  - cd Ant-Media-Server-Common
-  - mvn clean install -DskipTests -Dmaven.javadoc.skip=true -Dgpg.skip=true --quiet
-  - cd ..
-
-
+env:
+  global:
+    secure: kCU7QNiF2NdGD5n7AbB5ujGtyjsbCXnCr8z3lIpQ3zkDh8cU8AWYWl0K46FeC/msoLl60aE07mhlEykbtYU7k3yHFaKD7F3pwh65HEOrbvPeiPrEk/SNvDSxK8Bkll0igwK4H+42tVzL1ZIiquNANE6Z2Oasiczq81uYLTPocA1h9tLJm04xY2n0DGzaOnUdmVWH8lYt1RKstLHDgFnCsn7bxWh0j75zdMCKvYRHAg9fAptwdTFGNF7ZgD8D5uXmowH6sAHVQRyCfKv4x8TZkLb7BTM6kZ1p6LxsgXx7KwkyHWV5pgpEToy6cIM7mjCC1GsBv9F6d7l+rwfq09BgI5JC2jCyTbZZJ4YYuYNVDePRolRssJqNyHMVpSJ1/xiPenlNgUHW/v69BEflxvEK90e8e93wZLgLc3LulZ0DURZd3CemnlfMvbKK6FzY99TsZVInAbfV4jm0+3l1ZXa4mRne7ms1nOo7eT/RVJSsc4S4QM4NVO2HtgXIELr/rDaqTM81SQ7WwJgyKQYLxMvgGPtIzR4Y8vhF0QvQIb3VIWIcnl4mBNHnU4+mmQkw/CE9CtDUpHzVI7jpfW03ayVvOpFLxYkJec08GkokWReFQu3NNDpWIS4XXFjt+5Up2ythtBLxsSeT0MgdMcGB/GK1hD8+PKtzZEXHupLDeUxvlg4=
+before_install:
+- openssl aes-256-cbc -k "$GPG_PASSPHRASE" -in codesigning.asc.enc -out codesigning.asc -d
+- gpg --fast-import codesigning.asc
+- sudo git clone --depth=1 https://github.com/ant-media/utilities.git /usr/local/onvif
+- (if [ $(git ls-remote https://github.com/ant-media/Ant-Media-Server-Common.git $TRAVIS_BRANCH  |
+  wc -l) == "1" ];  then echo " $TRAVIS_BRANCH branch found";  git clone --depth=1
+  -b $TRAVIS_BRANCH https://github.com/ant-media/Ant-Media-Server-Common.git;  else
+  echo "branch not found"; git clone --depth=1 https://github.com/ant-media/Ant-Media-Server-Common.git;  fi)
+- cd Ant-Media-Server-Common
+- mvn clean install -DskipTests -Dmaven.javadoc.skip=true -Dgpg.skip=true --quiet
+- cd ..
 install:
-  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dgpg.skip=true -B -V --quiet 
-
-script:
-
+- mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dgpg.skip=true -B -V --quiet
+script: 
 cache:
   directories:
-    - '$HOME/.m2/repository'
-
+  - "$HOME/.m2/repository"
 deploy:
-  - provider: script
-    script: "mvn deploy -DskipTests --quiet --settings mvn-settings.xml"
-    skip_cleanup: true
-    on:
-      tags: false
-      branch: master
-      condition: $(mvn -q -Dexec.executable="echo" -Dexec.args='${project.version}' --non-recursive exec:exec)  = *"SNAPSHOT"*
-  
-  - provider: script
-    script: "mvn deploy -DskipTests --quiet --settings mvn-settings.xml"
-    skip_cleanup: true
-    on:
-      #deploy to maven if it is master branch and tagged
-      tags: true
-      branch: master
-      
-#above configuration prevents deploying a new release(not snapshot) if it is not tagged       
+- provider: script
+  script: mvn deploy -DskipTests --quiet --settings mvn-settings.xml
+  skip_cleanup: true
+  on:
+    tags: false
+    branch: master
+    condition: $(mvn -q -Dexec.executable="echo" -Dexec.args='${project.version}'
+      --non-recursive exec:exec)  = *"SNAPSHOT"*
+- provider: script
+  script: mvn deploy -DskipTests --quiet --settings mvn-settings.xml
+  skip_cleanup: true
+  on:
+    tags: true
+    branch: master
