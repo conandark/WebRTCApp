@@ -10,7 +10,7 @@
 	<groupId>io.antmedia.webrtc</groupId>
 	<artifactId>WebRTCApp</artifactId>
 	<packaging>war</packaging>
-	<version>1.3.6.2-SNAPSHOT</version>
+	<version>${webrtcapp.version}</version>
 	<name>WebRTCApp Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<properties>
