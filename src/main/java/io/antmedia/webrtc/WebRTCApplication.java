@@ -17,6 +17,7 @@ import io.antmedia.AntMediaApplicationAdapter;
 
 public class WebRTCApplication extends AntMediaApplicationAdapter implements ApplicationContextAware{
 
+	static WebRTCApplication application;
 
 	private static final Logger logger = Red5LoggerFactory.getLogger(WebSocketListener.class);
 
@@ -27,20 +28,17 @@ public class WebRTCApplication extends AntMediaApplicationAdapter implements App
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		this.applicationContext = applicationContext;
 	}
+	
+	public static WebRTCApplication getApplication() {
+		return application;
+	}
+	
 
 	@Override
 	public boolean appStart(IScope app) {
+		application = this;
 		// get the websocket plugin
-		WebSocketPlugin wsPlugin = (WebSocketPlugin) PluginRegistry.getPlugin("WebSocketPlugin");
-		// add this application to it
-		wsPlugin.setApplication(this);
-
-		// get the manager
-		WebSocketScopeManager manager = wsPlugin.getManager(app);
-		// get the ws scope
-		WebSocketScope defaultWebSocketScope = (WebSocketScope) applicationContext.getBean("webSocketScopeDefault");
-		// add the ws scope
-		manager.addWebSocketScope(defaultWebSocketScope);
+	
 		return super.appStart(app);
 	}
 	
@@ -53,11 +51,6 @@ public class WebRTCApplication extends AntMediaApplicationAdapter implements App
 
 	@Override
     public void appStop(IScope scope) {
-        log.info("Chat stopping");
-        // remove our app
-        WebSocketScopeManager manager = ((WebSocketPlugin) PluginRegistry.getPlugin("WebSocketPlugin")).getManager(scope);
-        manager.removeApplication(scope);
-        manager.stop();
         super.appStop(scope);
     }
 
