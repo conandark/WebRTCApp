@@ -67,7 +67,7 @@ public class WebSocketListener extends WebSocketDataListener {
 
 				connectionContextList.put(connection.getId(), connectionContext);
 
-				connectionContext.setWsConnection(connection);
+//				connectionContext.setWsConnection(connection);
 				
 				connectionContext.start();
 
