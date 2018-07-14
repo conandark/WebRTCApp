@@ -145,9 +145,9 @@ body {
 
         $("#broadcastingInfo").fadeIn(800, function () {
           $("#broadcastingInfo").fadeOut(800, function () {
-        	var state = webRTCAdaptor.signallingState();
+        		var state = webRTCAdaptor.signallingState(streamNameBox.value);
             if (state != null && state != "closed") {
-            	var iceState = webRTCAdaptor.iceConnectionState();
+            	var iceState = webRTCAdaptor.iceConnectionState(streamNameBox.value);
             	if (iceState != null && iceState != "failed" && iceState != "disconnected") {
               		startAnimation();
             	}
