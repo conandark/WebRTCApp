@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
-import io.antmedia.webrtc.adaptor.WebSocketCommunityHandler;
+import io.antmedia.websocket.WebSocketCommunityHandler;
 
 @ServerEndpoint(value="/websocket", configurator=DefaultServerEndpointConfigurator.class)
 public class WebSocketLocalCommunityHandler extends WebSocketCommunityHandler {
