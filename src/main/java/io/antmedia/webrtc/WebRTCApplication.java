@@ -19,7 +19,7 @@ public class WebRTCApplication extends AntMediaApplicationAdapter implements App
 
 	static WebRTCApplication application;
 
-	private static final Logger logger = Red5LoggerFactory.getLogger(WebSocketListener.class);
+	private static final Logger logger = Red5LoggerFactory.getLogger(WebRTCApplication.class);
 
 	private ApplicationContext applicationContext;
 	private ThreadPoolTaskScheduler taskScheduler;
