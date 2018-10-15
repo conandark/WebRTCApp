@@ -13,10 +13,10 @@ before_install:
   -b $TRAVIS_BRANCH https://github.com/ant-media/Ant-Media-Server-Common.git;  else
   echo "branch not found"; git clone --depth=1 https://github.com/ant-media/Ant-Media-Server-Common.git;  fi)
 - cd Ant-Media-Server-Common
-- mvn clean install -DskipTests -Dmaven.javadoc.skip=true -Dgpg.skip=true --quiet
+- mvn clean install -DskipTests -Dmaven.javadoc.skip=true -Dgpg.skip=true
 - cd ..
 install:
-- mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dgpg.skip=true -B -V --quiet
+- mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dgpg.skip=true
 script: 
 cache:
   directories:
