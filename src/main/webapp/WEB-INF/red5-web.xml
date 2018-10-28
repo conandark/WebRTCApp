@@ -65,18 +65,4 @@
 		<property name="appSettings" ref="app.settings" />
 	</bean>
 
-	<!-- WebSocket scope with our listeners -->
-	<bean id="webSocketScopeDefault" class="org.red5.net.websocket.WebSocketScope"
-		lazy-init="true">
-		<!-- Application scope -->
-		<constructor-arg ref="web.scope" />
-		<!-- The ws scope listeners -->
-		<property name="listeners">
-			<list>
-				<bean id="chatListener" class="io.antmedia.webrtc.WebSocketListener">
-				</bean>
-			</list>
-		</property>
-	</bean>
-
 </beans>
