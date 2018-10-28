@@ -1,12 +1,7 @@
 package io.antmedia.webrtc;
 
 import org.red5.logging.Red5LoggerFactory;
-import org.red5.net.websocket.WebSocketPlugin;
-import org.red5.net.websocket.WebSocketScope;
-import org.red5.net.websocket.WebSocketScopeManager;
-import org.red5.server.adapter.MultiThreadedApplicationAdapter;
 import org.red5.server.api.scope.IScope;
-import org.red5.server.plugin.PluginRegistry;
 import org.slf4j.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
