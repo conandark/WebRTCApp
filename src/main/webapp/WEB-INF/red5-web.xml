@@ -36,19 +36,20 @@
 		<property name="dbPassword" value="${db.password}" />
 	</bean>
 	
-	<bean id="app.settings" class="io.antmedia.AppSettings">
+	<bean id="app.settings" class="io.antmedia.AppSettings" >
 		<property name="mp4MuxingEnabled" value="${settings.mp4MuxingEnabled}" />
 		<property name="addDateTimeToMp4FileName" value="${settings.addDateTimeToMp4FileName}" />
-		<!-- 
 		<property name="encoderSettingsString" value="${settings.encoderSettingsString}" />
-		 -->
-
-		<property name="hlsMuxingEnabled" value="${settings.hlsMuxingEnabled}" />
-		<property name="hlsListSize" value="${settings.hlsListSize}" />
-		<property name="hlsTime" value="${settings.hlsTime}" />
-		<property name="hlsPlayListType" value="${settings.hlsPlayListType}" />
 		
-		<property name="facebookClientId" value="${facebook.clientId}" />
+      	<property name="hlsMuxingEnabled" value="${settings.hlsMuxingEnabled}" />
+     	<property name="hlsListSize" value="${settings.hlsListSize}" />
+      	<property name="hlsTime" value="${settings.hlsTime}" />
+      	<property name="hlsPlayListType" value="${settings.hlsPlayListType}" />
+      	<property name="deleteHLSFilesOnEnded" value="${settings.deleteHLSFilesOnEnded}" />
+      	<property name="serverName" value="#{ @'ant.media.server.settings'.serverName }" />
+      	<property name="acceptOnlyStreamsInDataStore" value="${settings.acceptOnlyStreamsInDataStore}" />
+      	
+      	<property name="facebookClientId" value="${facebook.clientId}" />
       	<property name="facebookClientSecret" value="${facebook.clientSecret}" />
       	
       	<property name="periscopeClientId" value="${periscope.clientId}" />
@@ -56,6 +57,24 @@
       	
       	<property name="youtubeClientId" value="${youtube.clientId}" />
       	<property name="youtubeClientSecret" value="${youtube.clientSecret}" />
+      	
+
+      	<property name="objectDetectionEnabled" value="${settings.objectDetectionEnabled}" />      	
+      	<property name="createPreviewPeriod" value="${settings.createPreviewPeriod}" />      	
+
+
+      	<property name="previewOverwrite" value="${settings.previewOverwrite}" />
+		<property name="vodFolder" value="${settings.vodFolder}" />
+		
+		<property name="stalkerDBServer" value="${settings.stalkerDBServer}" />
+		<property name="stalkerDBUsername" value="${settings.stalkerDBUsername}" />
+		<property name="stalkerDBPassword" value="${settings.stalkerDBPassword}" />
+
+		<property name="restartStreamFetcherPeriod" value="${settings.streamFetcherRestartPeriod}" />
+		<property name="tokenControlEnabled" value="${settings.tokenControlEnabled}" />
+		<!--  
+		<property name="streamFetcherBufferTime" value="${settings.streamFetcherBufferTime}" />
+		 -->
 
 	</bean>
 
