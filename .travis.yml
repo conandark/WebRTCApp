@@ -46,10 +46,10 @@ deploy:
     all_branches: true
     condition: $(mvn -q -Dexec.executable="echo" -Dexec.args='${project.version}'
       --non-recursive exec:exec)  = *"SNAPSHOT"*
-#deploy to maven if it's tag and it's in a release/* branch      
+#deploy to maven if it's tag and it's in a release/* branch or tag      
 - provider: script
   script: mvn deploy -DskipTests --quiet --settings mvn-settings.xml
   skip_cleanup: true
   on:
     tags: true
-    condition: $TRAVIS_BRANCH =~ ^release
+    condition: $TRAVIS_TAG =~ ^release
