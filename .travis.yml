@@ -19,6 +19,17 @@ before_install:
 - cd Ant-Media-Server-Common
 - mvn clean install -DskipTests -Dmaven.javadoc.skip=true -Dgpg.skip=true --quiet
 - cd ..
+# Check Ant Media Server from git, in order to fix dependency issue
+- (if [ $(git ls-remote https://github.com/ant-media/Ant-Media-Server.git $TRAVIS_BRANCH  | wc -l) == "1" ];
+    then
+       echo "This build is tag with $TRAVIS_BRANCH. Check Ant Media Server $TRAVIS_TAG";
+       git clone --depth=1 -b $TRAVIS_BRANCH https://github.com/ant-media/Ant-Media-Server.git; 
+       cd Ant-Media-Server;
+       mvn clean install -DskipTests -Dgpg.skip=true --quiet;
+       cd ..;
+    else 
+       echo "There is no branch. Use the version in maven repo";
+  fi)
 install:
 - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dgpg.skip=true --quiet
 script: 
@@ -26,6 +37,7 @@ cache:
   directories:
   - "$HOME/.m2/repository"
 deploy:
+#deploy to maven if it's a snapshot releasein all branches
 - provider: script
   script: mvn deploy -DskipTests --quiet --settings mvn-settings.xml
   skip_cleanup: true
@@ -34,9 +46,10 @@ deploy:
     all_branches: true
     condition: $(mvn -q -Dexec.executable="echo" -Dexec.args='${project.version}'
       --non-recursive exec:exec)  = *"SNAPSHOT"*
+#deploy to maven if it's tag and it's in a release/* branch or tag      
 - provider: script
   script: mvn deploy -DskipTests --quiet --settings mvn-settings.xml
   skip_cleanup: true
   on:
     tags: true
-    branch: master
+    condition: $TRAVIS_TAG =~ ^release
