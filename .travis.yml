@@ -19,6 +19,17 @@ before_install:
 - cd Ant-Media-Server-Common
 - mvn clean install -DskipTests -Dmaven.javadoc.skip=true -Dgpg.skip=true --quiet
 - cd ..
+# Check Ant Media Server from git if tagged build, in order to fix dependency issue
+- (if [ ! -z "$TRAVIS_TAG" ];
+    then
+       echo "This build is tag with $TRAVIS_TAG. Check Ant Media Server $TRAVIS_TAG";
+       git clone --depth=1 -b $TRAVIS_TAG https://github.com/ant-media/Ant-Media-Server.git; 
+       cd Ant-Media-Server;
+       mvn clean install -DskipTests -Dgpg.skip=true --quiet;
+       cd ..;
+    else 
+       echo "This is not a tagged build. Checkout Ant Media Server from maven repo";
+  fi)
 install:
 - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dgpg.skip=true --quiet
 script: 
