@@ -37,6 +37,7 @@ cache:
   directories:
   - "$HOME/.m2/repository"
 deploy:
+#deploy to maven if it's a snapshot releasein all branches
 - provider: script
   script: mvn deploy -DskipTests --quiet --settings mvn-settings.xml
   skip_cleanup: true
@@ -45,9 +46,10 @@ deploy:
     all_branches: true
     condition: $(mvn -q -Dexec.executable="echo" -Dexec.args='${project.version}'
       --non-recursive exec:exec)  = *"SNAPSHOT"*
+#deploy to maven if it's tag and it's in a release/* branch      
 - provider: script
   script: mvn deploy -DskipTests --quiet --settings mvn-settings.xml
   skip_cleanup: true
   on:
     tags: true
-    branch: master
+    condition: $TRAVIS_BRANCH =~ ^release
