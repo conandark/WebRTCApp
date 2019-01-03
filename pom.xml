@@ -9,7 +9,6 @@
 	<groupId>io.antmedia.webrtc</groupId>
 	<artifactId>WebRTCApp</artifactId>
 	<packaging>war</packaging>
-	<version>${webrtcapp.version}</version>
 	<name>WebRTCApp Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<properties>
@@ -115,7 +114,7 @@
 		<dependency>
 			<groupId>io.antmedia</groupId>
 			<artifactId>ant-media-server</artifactId>
-			<version>${ant-media-server.version}</version>
+			<version>${project.parent.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		 <dependency>
