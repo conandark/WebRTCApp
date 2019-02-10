@@ -5,9 +5,11 @@ pageEncoding="UTF-8"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Ant Media Server</title>
 
-<link rel="stylesheet" href="https://releases.flowplayer.org/7.2.7/skin/skin.css">
+<link rel="stylesheet"
+	href="https://releases.flowplayer.org/7.2.7/skin/skin.css">
 <!-- hls.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/0.10.1/hls.light.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/0.10.1/hls.light.min.js"></script>
 <!-- flowplayer -->
 <script src="https://releases.flowplayer.org/7.2.7/flowplayer.min.js"></script>
 
@@ -18,16 +20,17 @@ pageEncoding="UTF-8"%>
 <link href="css/player.css" rel="stylesheet">
 </head>
 <body>
-	<div id="video_info">
-	</div>
+	<div id="video_info"></div>
 	<div style="width: 100%; max-width: 960px;" id="video_container">
 		<div id="video-player" class="fp-slim"></div>
 	</div>
 
 	<script>
+		document.cookie = "isPlay=false; expires=0; path=/;";
+
 		var name = "<%= request.getParameter("name") %>";
 		var token = "<%= request.getParameter("token") %>";
-		
+
 		var pAutoplay = "<%= request.getParameter("autoplay") %>";
 		var autoPlay = false;
 		if (pAutoplay == "true" && !isMobile()) {
@@ -53,23 +56,30 @@ pageEncoding="UTF-8"%>
 				preview = name.substring(0, name.indexOf("_adaptive"));
 			}
 
-			flowplayer("#video-player", {
-				poster : "previews/" + preview + ".png",
-				autoplay : autoPlay,
-				ratio : 9 / 16,
-				fullscreen : true,
-				native_fullscreen : true,
-				clip : {
-					live : liveStream,
-					sources : [ {
-						type : type,
-						src : "streams/" + name + "." + extension + "?token=" + token
-					} ]
-				},
-				hlsjs: {
-					recoverMediaError: true,
-					recoverNetworkError: true,
-				}
+			flowplayer(
+					"#video-player",
+					{
+						poster : "previews/" + preview + ".png",
+						autoplay : autoPlay,
+						ratio : 9 / 16,
+						fullscreen : true,
+						native_fullscreen : true,
+						clip : {
+							live : liveStream,
+							sources : [ {
+								type : type,
+								src : "streams/" + name + "." + extension
+										+ "?token=" + token
+							} ]
+						},
+						hlsjs : {
+							recoverMediaError : true,
+							recoverNetworkError : true,
+						}
+					}).on("pause", function(e, api) {
+				document.cookie = "isPlay=false; expires=0; path=/";
+			}).on("resume", function(e, api) {
+				document.cookie = "isPlay=true; expires=0; path=/";
 			});
 
 			document.getElementById("video_container").style.display = "block";
