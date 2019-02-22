@@ -36,8 +36,7 @@
 		<property name="dbPassword" value="${db.password}" />
 	</bean>
 	
-	<bean id="app.settings" class="io.antmedia.AppSettings" >
-	</bean>
+	<bean id="app.settings" class="io.antmedia.AppSettings" ></bean>
 
 	<!-- Defines the web handler which acts as an applications endpoint -->
 	<bean id="web.handler" class="io.antmedia.webrtc.WebRTCApplication" >
