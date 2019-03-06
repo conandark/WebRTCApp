@@ -29,9 +29,9 @@ pageEncoding="UTF-8"%>
 		var token = "<%= request.getParameter("token") %>";
 		
 		var pAutoplay = "<%= request.getParameter("autoplay") %>";
-		var autoPlay = false;
-		if (pAutoplay == "true" && !isMobile()) {
-			autoPlay = true;
+		var autoPlay = true;
+		if (pAutoplay == "false" || !isMobile()) {
+			autoPlay = false;
 		}
 
 		function initializePlayer(name, extension, token) {
