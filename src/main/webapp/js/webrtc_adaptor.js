@@ -29,7 +29,7 @@ function WebRTCAdaptor(initialValues)
 
 	if (!("WebSocket" in window)) {
 		console.log("WebSocket not supported.");
-		callbackError("WebSocketNotSupported");
+		thiz.callbackError("WebSocketNotSupported");
 		return;
 	}
 
