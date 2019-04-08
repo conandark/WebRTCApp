@@ -30,7 +30,7 @@ pageEncoding="UTF-8"%>
 		
 		var pAutoplay = "<%= request.getParameter("autoplay") %>";
 		var autoPlay = true;
-		if (pAutoplay == "false" || !isMobile()) {
+		if (pAutoplay == "false" || isMobile()) {
 			autoPlay = false;
 		}
 
