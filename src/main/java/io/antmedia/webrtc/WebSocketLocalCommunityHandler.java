@@ -6,7 +6,6 @@ import org.apache.tomcat.websocket.server.DefaultServerEndpointConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
-
 import io.antmedia.websocket.WebSocketCommunityHandler;
 
 @ServerEndpoint(value="/websocket", configurator=DefaultServerEndpointConfigurator.class)
@@ -19,7 +18,10 @@ public class WebSocketLocalCommunityHandler extends WebSocketCommunityHandler {
 	@Override
 	public ApplicationContext getAppContext() {
 		if (appCtx == null) {
-			appCtx = WebRTCApplication.getApplication().getContext().getApplicationContext();
+			WebRTCApplication application = WebRTCApplication.getApplication();
+			if (application != null) {
+				appCtx = application.getContext().getApplicationContext();
+			}
 		}
 		return appCtx;
 	}
