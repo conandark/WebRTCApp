@@ -44,9 +44,4 @@ public class WebRTCApplication extends AntMediaApplicationAdapter implements App
 		this.taskScheduler = taskScheduler;
 	}
 
-	@Override
-    public void appStop(IScope scope) {
-        super.appStop(scope);
-    }
-
 }
